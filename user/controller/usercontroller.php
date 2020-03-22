@@ -4,6 +4,7 @@ namespace User\Controller;
 use Core\Controller\ControllerException;
 use Core\Controller\StubController;
 use Core\View\JsonView;
+use Core\View\WebView;
 
 class UserController extends StubController
 {
@@ -45,7 +46,9 @@ class UserController extends StubController
 
     public function authorizeAction()
     {
-
+        $webView = new WebView();
+        $webView->setTemplatePath('templates/user/authorize.php');
+        return $webView;
     }
 
     public function testAction()

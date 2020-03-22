@@ -3,7 +3,7 @@ namespace Core\View;
 
 class WebView implements IView
 {
-    protected const DEFAULT_TEMPLATES_FOLDER = '/asset/';
+    protected const DEFAULT_TEMPLATES_FOLDER = '/assets/';
 
     protected $templatePath;
     protected $data;
