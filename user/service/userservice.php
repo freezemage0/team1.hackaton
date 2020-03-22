@@ -34,7 +34,10 @@ class UserService
                 throw new \InvalidArgumentException('Failed to register new user: login already taken.');
             }
 
-            $result = $this->manager->add($parameters);
+            $result = $this->manager->add(array(
+                'LOGIN' => $login,
+                'PASSWORD' => $password
+            ));
             $transactionManager->commitTransaction();
             return $result;
 

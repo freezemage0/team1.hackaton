@@ -103,4 +103,9 @@ class Request
     {
         return $this->server['DOCUMENT_ROOT'];
     }
+
+    public function redirect($path)
+    {
+        header('Location: ' . $path);
+    }
 }
