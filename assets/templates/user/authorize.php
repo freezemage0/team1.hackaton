@@ -1,13 +1,10 @@
-<?php
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Вход</title>
-    <link rel="stylesheet" href="<?=$this::DEFAULT_TEMPLATES_FOLDER .'/css/core/bootstrap.min.css';?>">
-    <link rel="stylesheet" href="<?=$this::DEFAULT_TEMPLATES_FOLDER .'/assets/css/user/style.css';?>">
+    <link rel="stylesheet" href="<?=$this::DEFAULT_TEMPLATES_FOLDER .'css/core/bootstrap.min.css';?>">
+    <link rel="stylesheet" href="<?=$this::DEFAULT_TEMPLATES_FOLDER .'css/user/style.css';?>">
 </head>
 <body>
 
@@ -27,37 +24,38 @@
 
                     <div class="tab-content p-3" id="myTabContent">
                         <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                            <form action="/user/login" method="post">
+                            <form action="/user/authorize" method="post">
 
                                 <div class="form-group">
                                     <label for="log-login">Логин</label>
-                                    <input type="text" id="log-login" name="login" class="form-control" required>
+                                    <input type="text" id="log-login" name="LOGIN" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="log-pass">Пароль</label>
-                                    <input type="password" class="form-control" id="log-pass" name="password" required>
+                                    <input type="password" class="form-control" id="log-pass" name="PASSWORD" required>
                                 </div>
 
+                                <input name="SUBMITTED" value="Y" hidden>
                                 <button class="btn btn-outline-primary">Войти</button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                            <form action="user/register" method="post">
+                            <form action="/user/register" method="post">
 
                                 <div class="form-group">
                                     <label for="reg-log">Логин</label>
-                                    <input type="text" id="reg-log" name="login" class="form-control" required>
+                                    <input type="text" id="reg-log" name="LOGIN" class="form-control" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="reg-pass">Пароль</label>
-                                    <input type="password" class="form-control" id="reg-pass" name="password" required>
+                                    <input type="password" class="form-control" id="reg-pass" name="PASSWORD" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="reg-pass-conf">Повторите пароль</label>
-                                    <input type="password" class="form-control" id="reg-pass-conf" name="password_confirm" required>
+                                    <input type="password" class="form-control" id="reg-pass-conf" name="CONFIRM" required>
                                     <div class="invalid-feedback">
                                         Введи это кал правильно, плиз :)
                                     </div>
@@ -65,9 +63,10 @@
 
                                 <div class="form-group">
                                     <label for="reg-name">Имя</label>
-                                    <input type="text" class="form-control" id="reg-name" name="name" required>
+                                    <input type="text" class="form-control" id="reg-name" name="NAME" required>
                                 </div>
 
+                                <input name="SUBMITTED" value="Y" hidden>
                                 <button class="btn btn-outline-primary">Зарегистрироваться</button>
 
                             </form>
@@ -81,8 +80,8 @@
     </div>
 </section>
 
-<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'/assets/js/core/jquery-3.4.1.min.js';?>"></script>
-<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'/assets/js/core/bootstrap.min.js';?>"></script>
-<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'/assets/js/user/script.js';?>"></script>
+<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'js/core/jquery-3.4.1.min.js';?>"></script>
+<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'js/core/bootstrap.min.js';?>"></script>
+<script src="<?=$this::DEFAULT_TEMPLATES_FOLDER .'js/user/script.js';?>"></script>
 </body>
 </html>
