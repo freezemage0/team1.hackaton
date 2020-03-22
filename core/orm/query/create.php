@@ -1,7 +1,7 @@
 <?php
-namespace ORM\Query;
+namespace Core\ORM\Query;
 
-use ORM\Field\Field;
+use Core\ORM\Field\Field;
 
 class Create extends Query
 {

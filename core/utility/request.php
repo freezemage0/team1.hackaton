@@ -1,5 +1,5 @@
 <?php
-namespace Utility;
+namespace Core\Utility;
 
 class Request
 {
@@ -97,5 +97,10 @@ class Request
     public function getRequestedPage()
     {
         return $this->server['REQUEST_URI'];
+    }
+
+    public function getDocumentRoot()
+    {
+        return $this->server['DOCUMENT_ROOT'];
     }
 }

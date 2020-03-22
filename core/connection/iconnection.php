@@ -1,5 +1,5 @@
 <?php
-namespace Connection;
+namespace Core\Connection;
 
 interface IConnection
 {

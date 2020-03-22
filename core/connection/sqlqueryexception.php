@@ -1,5 +1,5 @@
 <?php
-namespace Connection;
+namespace Core\Connection;
 
 class SqlQueryException extends \Exception
 {

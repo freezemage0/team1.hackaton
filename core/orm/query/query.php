@@ -1,5 +1,5 @@
 <?php
-namespace ORM\Query;
+namespace Core\ORM\Query;
 
 abstract class Query
 {

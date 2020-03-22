@@ -1,7 +1,7 @@
 <?php
-namespace ORM\Condition;
+namespace Core\ORM\Condition;
 
-use ORM\Buildable;
+use Core\ORM\Buildable;
 
 class Logic implements Buildable
 {

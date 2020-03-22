@@ -1,7 +1,7 @@
 <?php
-namespace ORM\Query;
+namespace Core\ORM\Query;
 
-use ORM\Condition\ConditionBuilder;
+use Core\ORM\Condition\ConditionBuilder;
 
 abstract class ConditionalQuery extends Query
 {

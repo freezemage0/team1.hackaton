@@ -1,18 +1,18 @@
 <?php
 
-namespace ORM;
+namespace Core\ORM;
 
-use Connection\IConnection;
-use ORM\Field\Field;
-use ORM\Query\Create;
-use ORM\Query\DefaultProcessor;
-use ORM\Query\Delete;
-use ORM\Query\Drop;
-use ORM\Query\Insert;
-use ORM\Query\IProcessor;
-use ORM\Query\Query;
-use ORM\Query\Select;
-use ORM\Query\Update;
+use Core\Connection\IConnection;
+use Core\ORM\Field\Field;
+use Core\ORM\Query\Create;
+use Core\ORM\Query\DefaultProcessor;
+use Core\ORM\Query\Delete;
+use Core\ORM\Query\Drop;
+use Core\ORM\Query\Insert;
+use Core\ORM\Query\IProcessor;
+use Core\ORM\Query\Query;
+use Core\ORM\Query\Select;
+use Core\ORM\Query\Update;
 
 abstract class EntityManager
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Connection;
+namespace Core\Connection;
 
 class MysqliConnection implements IConnection
 {

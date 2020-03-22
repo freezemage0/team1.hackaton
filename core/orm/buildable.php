@@ -1,5 +1,5 @@
 <?php
-namespace ORM;
+namespace Core\ORM;
 
 interface Buildable
 {

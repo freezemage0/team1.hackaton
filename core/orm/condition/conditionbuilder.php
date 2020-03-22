@@ -1,8 +1,8 @@
 <?php
-namespace ORM\Condition;
+namespace Core\ORM\Condition;
 
-use ORM\Buildable;
-use ORM\Query\IProcessor;
+use Core\ORM\Buildable;
+use Core\ORM\Query\IProcessor;
 
 class ConditionBuilder implements Buildable
 {

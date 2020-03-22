@@ -1,6 +1,5 @@
 <?php
-namespace DependencyInjection;
-require_once('storage.php');
+namespace Core\DependencyInjection;
 
 class Container
 {

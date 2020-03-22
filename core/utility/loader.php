@@ -1,5 +1,5 @@
 <?php
-namespace Utility;
+namespace Core\Utility;
 
 class Loader
 {

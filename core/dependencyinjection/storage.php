@@ -1,5 +1,5 @@
 <?php
-namespace DependencyInjection;
+namespace Core\DependencyInjection;
 
 class Storage
 {

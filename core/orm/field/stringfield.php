@@ -1,5 +1,5 @@
 <?php
-namespace ORM\Field;
+namespace Core\ORM\Field;
 
 class StringField extends Field
 {

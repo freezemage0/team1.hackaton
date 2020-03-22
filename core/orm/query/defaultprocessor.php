@@ -1,7 +1,7 @@
 <?php
-namespace ORM\Query;
+namespace Core\ORM\Query;
 
-use Connection\IConnection;
+use Core\Connection\IConnection;
 
 class DefaultProcessor implements IProcessor
 {
