@@ -12,7 +12,7 @@ class Select extends ConditionalQuery
     public function setSelect(array $columns)
     {
         foreach ($columns as $column) {
-            $this->select = $this->processor->quote($column);
+            $this->select[] = $this->processor->quote($column);
         }
     }
 

@@ -24,4 +24,9 @@ class CurrentUser
     {
         $this->session->destroy();
     }
+
+    public function getId()
+    {
+        return $this->session->get('USER_ID');
+    }
 }

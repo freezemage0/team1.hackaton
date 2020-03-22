@@ -42,7 +42,6 @@ try {
     if (!($view instanceof IView)) {
         throw new \Core\Controller\ControllerException('Wrong controller return type.');
     }
-    Debug::dump($container->get(CurrentUser::class));
     $view->render();
 
 } catch (\Exception $exception) {

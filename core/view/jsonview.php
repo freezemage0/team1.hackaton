@@ -12,6 +12,6 @@ class JsonView implements IView
 
     public function render()
     {
-        echo json_encode($this->data);
+        echo json_encode($this->data, JSON_UNESCAPED_UNICODE);
     }
 }

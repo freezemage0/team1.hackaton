@@ -1,5 +1,6 @@
 <?php
 
+use Chat\Entity\ChatUserManager;
 use Core\Connection\IConnection;
 use Core\Connection\IConnectionConfiguration;
 use Core\Connection\MysqliConfig;
@@ -19,5 +20,5 @@ $connection = $container->get(IConnection::class);
 $connection->connect($container->get(IConnectionConfiguration::class));
 
 /** @var UserManager $manager */
-$manager = $container->get(UserManager::class);
+$manager = $container->get(ChatUserManager::class);
 $manager->create();

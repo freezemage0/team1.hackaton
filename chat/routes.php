@@ -4,6 +4,8 @@ use Chat\Controller\ChatController;
 
 return array(
     ChatController::class => array(
-        'index'
+        'index',
+        'send',
+        'getHistory'
     )
 );
