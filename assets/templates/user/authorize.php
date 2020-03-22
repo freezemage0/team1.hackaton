@@ -1,6 +1,3 @@
-<?php
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -27,7 +24,7 @@
 
                     <div class="tab-content p-3" id="myTabContent">
                         <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                            <form action="/user/login" method="post">
+                            <form action="/user/authorize" method="post">
 
                                 <div class="form-group">
                                     <label for="log-login">Логин</label>
@@ -39,11 +36,12 @@
                                     <input type="password" class="form-control" id="log-pass" name="PASSWORD" required>
                                 </div>
 
+                                <input name="SUBMITTED" value="Y" hidden>
                                 <button class="btn btn-outline-primary">Войти</button>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                            <form action="user/authorize" method="post">
+                            <form action="/user/register" method="post">
 
                                 <div class="form-group">
                                     <label for="reg-log">Логин</label>
@@ -68,6 +66,7 @@
                                     <input type="text" class="form-control" id="reg-name" name="NAME" required>
                                 </div>
 
+                                <input name="SUBMITTED" value="Y" hidden>
                                 <button class="btn btn-outline-primary">Зарегистрироваться</button>
 
                             </form>
