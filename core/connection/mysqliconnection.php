@@ -1,14 +1,13 @@
 <?php
 namespace Core\Connection;
 
+use Core\Connection\Persistence\TransactionManager;
+
 class MysqliConnection implements IConnection
 {
-    public const TRANSACTION_OPEN = 0;
-    public const TRANSACTION_CLOSED = 1;
-
     /** @var \mysqli $connection */
     protected $connection;
-    protected $transactionState;
+    protected $transactionManager;
 
     /**
      * Устанавливает соединение с БД.
@@ -136,5 +135,27 @@ class MysqliConnection implements IConnection
     public function rollbackTransaction()
     {
         return $this->query('ROLLBACK');
+    }
+
+    public function getTransactionManager(): TransactionManager
+    {
+        if ($this->transactionManager === null) {
+            $this->setTransactionManager($this->getDefaultTransactionManager());
+        }
+        return $this->transactionManager;
+    }
+
+    protected function getDefaultTransactionManager()
+    {
+        $transactionManager = new TransactionManager($this);
+        return $transactionManager;
+    }
+
+    public function setTransactionManager(TransactionManager $manager)
+    {
+        if ($this->transactionManager !== null) {
+            throw new \LogicException('Transaction manager is already set.');
+        }
+        $this->transactionManager = $manager;
     }
 }
