@@ -12,7 +12,7 @@ class Result
 
     public function fetch()
     {
-        return $this->result->fetch_array(MYSQLI_ASSOC);
+        return $this->result->fetch_array(MYSQLI_ASSOC) ?? false;
     }
 
     public function getSelectedRows()

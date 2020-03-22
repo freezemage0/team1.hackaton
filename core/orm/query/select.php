@@ -16,6 +16,11 @@ class Select extends ConditionalQuery
         }
     }
 
+    public function getSelect()
+    {
+        return $this->select ?? array();
+    }
+
     public function setLimit(int $limit)
     {
         $this->limit = $limit;
@@ -34,7 +39,7 @@ class Select extends ConditionalQuery
 
     protected function getOrderColumn()
     {
-        return $this->orderColumn ?? 'ID';
+        return $this->orderColumn ?? $this->processor->quote('ID');
     }
 
     protected function getOrderDirection()
@@ -44,8 +49,10 @@ class Select extends ConditionalQuery
 
     public function build()
     {
+        $select = empty($this->getSelect()) ? '*' : implode(', ', $this->getSelect());
+
         $query = array(
-            'SELECT' => implode(', ', $this->select) ?? '*',
+            'SELECT' => $select,
             'FROM' => $this->tableName,
             'WHERE' => $this->where,
             'ORDER BY' => $this->getOrderColumn() . ' ' . $this->getOrderDirection(),

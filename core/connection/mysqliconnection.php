@@ -25,7 +25,7 @@ class MysqliConnection implements IConnection
         );
 
         if ($this->connection->connect_errno) {
-            throw new SqlConnectionException($this->connection->connect_error, $this->connection->errno, $this->connection);
+            throw new SqlConnectionException($this->connection->connect_error, $this->connection->connect_errno);
         }
     }
 
@@ -60,7 +60,7 @@ class MysqliConnection implements IConnection
         $result = $this->connection->query($query);
 
         if ($this->connection->errno) {
-            throw new SqlQueryException($this->connection->error, $this->connection->error);
+            throw new SqlQueryException($this->connection->error, $this->connection->errno);
         }
 
         if (!($result instanceof \mysqli_result)) {
@@ -88,7 +88,7 @@ class MysqliConnection implements IConnection
         $escaped = $this->connection->real_escape_string($value);
 
         if ($this->connection->errno) {
-            throw new SqlQueryException($this->connection->error, $this->connection->error);
+            throw new SqlQueryException($this->connection->error, $this->connection->errno);
         }
 
         return $escaped;

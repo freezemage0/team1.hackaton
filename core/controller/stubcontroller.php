@@ -36,7 +36,7 @@ abstract class StubController
             return $result;
 
         } catch (\Exception $exception) {
-            throw new ControllerException('Failed to execute action because of exception', null, $exception);
+            throw new ControllerException($exception->getMessage());
         }
     }
 }

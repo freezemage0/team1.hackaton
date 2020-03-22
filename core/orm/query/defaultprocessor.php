@@ -19,7 +19,7 @@ class DefaultProcessor implements IProcessor
 
     public function prepare($value)
     {
-        return $this->connection->prepare($value);
+        return '"'.$this->connection->prepare($value).'"';
     }
 
 }

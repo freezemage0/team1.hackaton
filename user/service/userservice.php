@@ -5,6 +5,7 @@ namespace User\Service;
 use Core\Connection\MysqliConnection;
 use Core\Connection\Result;
 use Core\Security\CurrentUser;
+use Core\Utility\Debug;
 use User\Entity\UserManager;
 
 class UserService
@@ -48,9 +49,7 @@ class UserService
     public function addUser(array $parameters)
     {
         $transactionManager = $this->getTransactionManager();
-        $callable = function ($parameters) {
-            $login = $parameters['LOGIN'];
-            $password = $parameters['PASSWORD'];
+        $callable = function ($login, $name, $password) {
             $password = password_hash($password, PASSWORD_DEFAULT);
 
             if ($this->loginAlreadyTaken($login)) {
@@ -60,7 +59,8 @@ class UserService
             $result = $this->manager->add(
                 array(
                     'LOGIN' => $login,
-                    'PASSWORD' => $password
+                    'PASSWORD' => $password,
+                    'NAME' => $name
                 )
             );
 
@@ -90,7 +90,7 @@ class UserService
     {
         $transactionManager = $this->getTransactionManager();
         $callable = function ($login) {
-            $users = $this->getUsers(array('filter' => array('LOGIN', $login)));
+            $users = $this->manager->get(array('where' => array(array('LOGIN', $login))));
             return ($users->fetch() !== false);
         };
 

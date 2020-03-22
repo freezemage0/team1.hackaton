@@ -7,6 +7,7 @@ class Session
 
     public function __construct()
     {
+        $this->start();
         $this->session = $_SESSION;
     }
 

@@ -9,6 +9,7 @@ use Core\Connection\MysqliConnection;
 use Core\Controller\StubController;
 use Core\DependencyInjection\Container;
 use Core\Router;
+use Core\Security\CurrentUser;
 use Core\Utility\Debug;
 use Core\Utility\Request;
 use Core\View\IView;
@@ -29,6 +30,7 @@ try {
     $router = $container->get(Router::class);
     $route = $router->resolveRoute();
 
+    $container->share(CurrentUser::class);
     $container->alias(StubController::class, $route->getController());
 
     /** @var StubController $controller */
@@ -40,7 +42,9 @@ try {
     if (!($view instanceof IView)) {
         throw new \Core\Controller\ControllerException('Wrong controller return type.');
     }
+    Debug::dump($container->get(CurrentUser::class));
     $view->render();
+
 } catch (\Exception $exception) {
     Debug::dump($exception->getMessage());
 }

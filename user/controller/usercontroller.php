@@ -61,9 +61,20 @@ class UserController extends StubController
 
     public function authorizeAction()
     {
+        if ($this->isSubmitted()) {
+            $login = $this->request->get('LOGIN');
+            $password = $this->request->get('PASSWORD');
+
+            $this->service->authorize($login, $password);
+        }
         $webView = new WebView();
         $webView->setTemplatePath('templates/user/authorize.php');
         return $webView;
+    }
+
+    protected function isSubmitted()
+    {
+        return $this->request->get('SUBMITTED') === 'Y';
     }
 
     public function testAction()
