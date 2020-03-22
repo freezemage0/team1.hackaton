@@ -52,14 +52,60 @@ class ChatService
             ));
 
             $messages = array();
+            $lastMessageId = null;
             while ($message = $dbMessages->fetch()) {
+                if ($lastMessageId === null) {
+                    $lastMessageId = $message['ID'];
+                }
                 $messages[] = $message;
             }
 
+            $this->user->getSession()->set('LAST_MESSAGE_ID', $lastMessageId);
             return $messages;
         };
 
         return $transactionManager->wrap($callable, array('offset' => $offset));
+    }
+
+    public function getNewMessages()
+    {
+        $transactionManager = $this->getTransactionManager();
+
+        $callable = function () {
+            $lastMessageId = $this->user->getSession()->get('LAST_MESSAGE_ID');
+
+            $dbMessages = $this->manager->get(
+                array(
+                    'where' => array(
+                        array('ID', $lastMessageId, '>')
+                    ),
+                    'order' => array('MESSAGE_TIMESTAMP' => 'DESC')
+                )
+            );
+
+            $messages = array();
+            $newLastMessageId = null;
+
+            while ($message = $dbMessages->fetch()) {
+                if ($newLastMessageId === null) {
+                    $newLastMessageId = $message['ID'];
+                }
+                $messages[] = $message;
+            }
+
+            $this->user->getSession()->set('LAST_MESSAGE_ID', $newLastMessageId);
+            return $messages;
+        };
+
+        $start = time();
+        while ((time() - $start) < 25) {
+            $newMessages = $transactionManager->wrap($callable, array());
+            if (!empty($newMessages)) {
+
+                return $newMessages;
+            }
+        }
+        return array();
     }
 
     /**

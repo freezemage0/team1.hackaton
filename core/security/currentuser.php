@@ -10,6 +10,11 @@ class CurrentUser
         $this->session = $session;
     }
 
+    public function getSession()
+    {
+        return $this->session;
+    }
+
     public function isAuthorized()
     {
         return $this->session->get('USER_ID') > 0;

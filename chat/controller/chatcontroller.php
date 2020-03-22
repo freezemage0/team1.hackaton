@@ -78,4 +78,24 @@ class ChatController extends AuthController
         $jsonView->setData($result);
         return $jsonView;
     }
+
+    public function getNewMessagesAction()
+    {
+        try {
+            $newMessages = $this->service->getNewMessages();
+            $result = array(
+                'result' => 'success',
+                'messages' => $newMessages
+            );
+        } catch (\Exception $exception) {
+            $result = array(
+                'result' => 'error',
+                'message' => $exception->getMessage()
+            );
+        }
+
+        $jsonView = new JsonView();
+        $jsonView->setData($result);
+        return $jsonView;
+    }
 }

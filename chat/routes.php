@@ -6,6 +6,7 @@ return array(
     ChatController::class => array(
         'index',
         'send',
-        'getHistory'
+        'getHistory',
+        'getNewMessage'
     )
 );
