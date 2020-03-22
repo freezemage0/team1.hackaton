@@ -5,9 +5,17 @@ use Core\Controller\ControllerException;
 use Core\Controller\StubController;
 use Core\View\JsonView;
 use Core\View\WebView;
+use User\Service\UserService;
 
 class UserController extends StubController
 {
+    protected $service;
+
+    public function __construct(UserService $service)
+    {
+        $this->service = $service;
+    }
+
     public function registerAction()
     {
         try {
@@ -16,12 +24,19 @@ class UserController extends StubController
             }
 
             $login = $this->request->get('LOGIN');
+            $name = $this->request->get('NAME');
             $password = $this->request->get('PASSWORD');
             $confirm = $this->request->get('CONFIRM');
 
             if ($password !== $confirm) {
                 throw new ControllerException('Password and Confirm password do not match.');
             }
+
+            $this->service->addUser(array(
+                'LOGIN' => $login,
+                'NAME' => $name,
+                'PASSWORD' => $password
+            ));
 
             $result = array(
                 'result' => 'success',
