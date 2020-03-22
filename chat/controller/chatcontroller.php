@@ -34,12 +34,11 @@ class ChatController extends AuthController
             }
 
             $messageText = $this->request->get('MESSAGE_TEXT');
-
-            $this->service->send($messageText);
+            $messageData = $this->service->send($messageText);
 
             $result = array(
                 'result' => 'success',
-                'content' => 'Message added successfully.'
+                'content' => array($messageData)
             );
         } catch (\Exception $exception) {
             $result = array(

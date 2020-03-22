@@ -45,6 +45,7 @@ class UserController extends StubController
             $this->service->authorize($login, $password);
             $redirectView = new RedirectView();
             $redirectView->setLocation('/chat/index/');
+
             return $redirectView;
         } catch (\Exception $exception) {
             $result = array(
@@ -87,7 +88,7 @@ class UserController extends StubController
         return $webView;
     }
 
-    public function getUsers()
+    public function getUsersAction()
     {
         try {
             if (!$this->request->isPost()) {

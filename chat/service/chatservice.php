@@ -17,7 +17,7 @@ class ChatService
         $this->manager = $manager;
     }
 
-    public function     send($messageText)
+    public function send($messageText)
     {
         $transactionManager = $this->getTransactionManager();
 
@@ -25,12 +25,20 @@ class ChatService
             $userId = $this->user->getId();
             $timestamp = time();
 
-            $this->manager->add(array(
+            $data = array(
                 'USER_ID' => $userId,
                 'MESSAGE_TEXT' => $messageText,
                 'MESSAGE_TIMESTAMP' => $timestamp
+            );
+
+            $this->manager->add($data);
+            $message = $this->manager->get(array(
+                'where' => array(
+                    array('MESSAGE_TIMESTAMP', $timestamp)
+                )
             ));
 
+            return $message->fetch();
         };
 
         return $transactionManager->wrap($callable, array('messageText' => $messageText));
@@ -89,9 +97,8 @@ class ChatService
                 $messages[] = $message;
             }
 
-            if ($newLastMessageId !== null) {
-                $this->user->getSession()->set('LAST_MESSAGE_ID', $newLastMessageId);
-            }
+            $lastMessageId = $newLastMessageId ?? $lastMessageId;
+            $this->user->getSession()->set('LAST_MESSAGE_ID', $lastMessageId);
             return $messages;
         };
 
