@@ -3,6 +3,7 @@
 namespace Core\ORM;
 
 use Core\Connection\IConnection;
+use Core\Connection\Result;
 use Core\ORM\Field\Field;
 use Core\ORM\Query\Create;
 use Core\ORM\Query\DefaultProcessor;
@@ -25,6 +26,10 @@ abstract class EntityManager
         $this->connection = $connection;
     }
 
+    /**
+     * @param $parameters
+     * @return Result
+     */
     public function get($parameters)
     {
         $query = new Select($this->getProcessor());

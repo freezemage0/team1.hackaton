@@ -3,6 +3,7 @@
 namespace User\Service;
 
 use Core\Connection\MysqliConnection;
+use Core\Connection\Result;
 use Core\Security\CurrentUser;
 use User\Entity\UserManager;
 
@@ -19,32 +20,53 @@ class UserService
 
     public function authorize($login, $password)
     {
+        $transactionManager = $this->getTransactionManager();
 
+        $callable = function ($login, $password) {
+            $users = $this->manager->get(
+                array(
+                    'where' => array('LOGIN', $login)
+                )
+            );
+
+            $user = $users->fetch();
+            if ($user === false) {
+                throw new \InvalidArgumentException('Invalid login or password.');
+            }
+
+            $hash = $user['PASSWORD'];
+            if (!password_verify($password, $hash)) {
+                throw new \InvalidArgumentException('Invalid login or password.');
+            }
+
+            $this->user->authorize($user['ID']);
+        };
+
+        return $transactionManager->wrap($callable, array('login' => $login, 'password' => $password));
     }
 
     public function addUser(array $parameters)
     {
         $transactionManager = $this->getTransactionManager();
-        try {
-            $transactionManager->startTransaction();
+        $callable = function ($parameters) {
             $login = $parameters['LOGIN'];
             $password = $parameters['PASSWORD'];
+            $password = password_hash($password, PASSWORD_DEFAULT);
 
             if ($this->loginAlreadyTaken($login)) {
                 throw new \InvalidArgumentException('Failed to register new user: login already taken.');
             }
 
-            $result = $this->manager->add(array(
-                'LOGIN' => $login,
-                'PASSWORD' => $password
-            ));
-            $transactionManager->commitTransaction();
-            return $result;
+            $result = $this->manager->add(
+                array(
+                    'LOGIN' => $login,
+                    'PASSWORD' => $password
+                )
+            );
 
-        } catch (\Exception $exception) {
-            $transactionManager->rollbackTransaction();
-            throw $exception;
-        }
+            return $result;
+        };
+        $transactionManager->wrap($callable, $parameters);
     }
 
     public function getUsers(array $parameters = array())
@@ -52,7 +74,6 @@ class UserService
         $transactionManager = $this->getTransactionManager();
 
         $callable = function ($parameters) {
-            /** @var \mysqli_result $dbUsers */
             $dbUsers = $this->manager->get($parameters);
             $users = array();
 

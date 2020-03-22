@@ -47,7 +47,7 @@ class MysqliConnection implements IConnection
      * @see \mysqli::query()
      *
      * @param $query
-     * @return bool|\mysqli_result
+     * @return bool|Result
      *
      * @throws SqlQueryException
      */
@@ -63,7 +63,10 @@ class MysqliConnection implements IConnection
             throw new SqlQueryException($this->connection->error, $this->connection->error);
         }
 
-        return $result;
+        if (!($result instanceof \mysqli_result)) {
+            return $result;
+        }
+        return new Result($result);
     }
 
     /**
