@@ -43,7 +43,7 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                            <form action="user/register" method="post">
+                            <form action="user/authorize" method="post">
 
                                 <div class="form-group">
                                     <label for="reg-log">Логин</label>
