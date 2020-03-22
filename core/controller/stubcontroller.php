@@ -1,7 +1,9 @@
 <?php
 namespace Core\Controller;
 
+use Core\Route;
 use Core\Utility\Request;
+use Core\View\IView;
 
 abstract class StubController
 {
@@ -14,26 +16,22 @@ abstract class StubController
         $this->request = $request;
     }
 
-    public function setAction(string $action)
-    {
-        $this->action = $action;
-    }
-
     /**
-     * @return mixed
+     * @param Route $route
+     *
+     * @return IView
      * @throws ControllerException
      */
-    public function execute()
+    public function execute(Route $route): IView
     {
         $reflection = new \ReflectionObject($this);
-        $methodName = $this->action . 'Action';
 
-        if (!$reflection->hasMethod($methodName)) {
+        if (!$reflection->hasMethod($route->getMethodName())) {
             throw new ControllerException('Failed to execute method: malformed action name.');
         }
 
         try {
-            $method = $reflection->getMethod($methodName);
+            $method = $reflection->getMethod($route->getMethodName());
             $result = $method->invoke($this);
             return $result;
 

@@ -18,7 +18,8 @@ class Uri
         $this->scheme = $url['scheme'] ?? null;
         $this->host = $url['host'] ?? null;
         $this->path = $url['path'] ?? null;
-        $this->query = $this->parseQuery($url['query']);
+        $query = $url['query'] ?? null;
+        $this->query = $this->parseQuery($query);
     }
 
     public function getLocator(): string
@@ -61,7 +62,7 @@ class Uri
         return http_build_query($this->query);
     }
 
-    protected function parseQuery(string $rawQuery): array
+    protected function parseQuery(string $rawQuery = null): array
     {
         $parts = explode('=' , $rawQuery);
         $query = array();

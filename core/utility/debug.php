@@ -19,7 +19,7 @@ class Debug
         if (isset($label)) {
             echo $label;
         }
-        ?><pre><?var_dump($expr);?></pre><?
+        ?><pre><?php var_dump($expr);?></pre><?php
         echo ob_get_clean();
     }
 

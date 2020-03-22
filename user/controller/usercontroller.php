@@ -1,7 +1,10 @@
 <?php
 namespace User\Controller;
 
-class UserController
+use Core\Controller\StubController;
+use Core\View\JsonView;
+
+class UserController extends StubController
 {
     public function registerAction()
     {
@@ -16,5 +19,12 @@ class UserController
     public function loginAction()
     {
 
+    }
+
+    public function testAction()
+    {
+        $jsonView = new JsonView();
+        $jsonView->setData(array('UserController output' => 'test'));
+        return $jsonView;
     }
 }
