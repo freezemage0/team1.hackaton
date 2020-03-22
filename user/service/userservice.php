@@ -26,7 +26,7 @@ class UserService
         $callable = function ($login, $password) {
             $users = $this->manager->get(
                 array(
-                    'where' => array('LOGIN', $login)
+                    'where' => array(array('LOGIN', $login))
                 )
             );
 
@@ -84,6 +84,11 @@ class UserService
         };
 
         return $transactionManager->wrap($callable, $parameters);
+    }
+
+    public function logout()
+    {
+        $this->user->logout();
     }
 
     public function loginAlreadyTaken($login)
