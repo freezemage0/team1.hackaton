@@ -6,6 +6,7 @@ return array(
     UserController::class => array(
         'authorize',
         'logout',
-        'register'
+        'register',
+        'getUsers'
     )
 );

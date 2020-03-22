@@ -5,6 +5,7 @@ use Chat\Service\ChatService;
 use Core\Controller\ControllerException;
 use Core\Security\AuthController;
 use Core\Security\CurrentUser;
+use Core\Utility\Debug;
 use Core\View\JsonView;
 use Core\View\WebView;
 
@@ -38,12 +39,12 @@ class ChatController extends AuthController
 
             $result = array(
                 'result' => 'success',
-                'message' => 'Message added successfully.'
+                'content' => 'Message added successfully.'
             );
         } catch (\Exception $exception) {
             $result = array(
                 'result' => 'error',
-                'message' => $exception->getMessage()
+                'content' => $exception->getMessage()
             );
         }
 
@@ -59,18 +60,18 @@ class ChatController extends AuthController
                 throw new ControllerException('Unsupported request method.');
             }
 
-            $offset = $this->request->get('OFFSET');
+            $offset = $this->request->get('OFFSET') ?? 0;
 
             $messages = $this->service->getHistory($offset);
 
             $result = array(
                 'result' => 'success',
-                'messages' => $messages
+                'content' => $messages
             );
         } catch (\Exception $exception) {
             $result = array(
                 'result' => 'error',
-                'message' => $exception->getMessage()
+                'content' => $exception->getMessage()
             );
         }
 
@@ -85,12 +86,12 @@ class ChatController extends AuthController
             $newMessages = $this->service->getNewMessages();
             $result = array(
                 'result' => 'success',
-                'messages' => $newMessages
+                'content' => $newMessages
             );
         } catch (\Exception $exception) {
             $result = array(
                 'result' => 'error',
-                'message' => $exception->getMessage()
+                'content' => $exception->getMessage()
             );
         }
 

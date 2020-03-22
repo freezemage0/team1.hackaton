@@ -3,16 +3,20 @@ namespace User\Controller;
 
 use Core\Controller\ControllerException;
 use Core\Controller\StubController;
+use Core\Security\CurrentUser;
 use Core\View\JsonView;
+use Core\View\RedirectView;
 use Core\View\WebView;
 use User\Service\UserService;
 
 class UserController extends StubController
 {
     protected $service;
+    protected $user;
 
-    public function __construct(UserService $service)
+    public function __construct(CurrentUser $user, UserService $service)
     {
+        $this->user = $user;
         $this->service = $service;
     }
 
@@ -38,14 +42,75 @@ class UserController extends StubController
                 'PASSWORD' => $password
             ));
 
+            $this->service->authorize($login, $password);
+            $redirectView = new RedirectView();
+            $redirectView->setLocation('/chat/index/');
+            return $redirectView;
+        } catch (\Exception $exception) {
+            $result = array(
+                'result' => 'error',
+                'content' => $exception->getMessage()
+            );
+
+            $jsonView = new JsonView();
+            $jsonView->setData($result);
+            return $jsonView;
+        }
+    }
+
+    public function logoutAction()
+    {
+        $this->user->logout();
+        $redirectView = new RedirectView();
+        $redirectView->setLocation('/user/authorize/');
+        return $redirectView;
+    }
+
+    public function authorizeAction()
+    {
+        if (!$this->request->isPost()) {
+            throw new ControllerException('Unsupported request method.');
+        }
+        if ($this->isSubmitted()) {
+            $login = $this->request->get('LOGIN');
+            $password = $this->request->get('PASSWORD');
+
+            $this->service->authorize($login, $password);
+        }
+        if ($this->user->isAuthorized()) {
+            $redirectView = new RedirectView();
+            $redirectView->setLocation('/chat/index/');
+            return $redirectView;
+        }
+        $webView = new WebView();
+        $webView->setTemplatePath('templates/user/authorize.php');
+        return $webView;
+    }
+
+    public function getUsers()
+    {
+        try {
+            if (!$this->request->isPost()) {
+                throw new ControllerException('Unsupported request method.');
+            }
+            if (!$this->user->isAuthorized()) {
+                $redirectView = new RedirectView();
+                $redirectView->setLocation('/user/authorize/');
+                return $redirectView;
+            }
+
+            $users = $this->service->getUsers(array(
+                'select' => array('ID', 'NAME', 'LOGIN')
+            ));
+
             $result = array(
                 'result' => 'success',
-                'message' => 'User registered successfully.'
+                'content' => $users
             );
         } catch (\Exception $exception) {
             $result = array(
                 'result' => 'error',
-                'message' => $exception->getMessage()
+                'content' => $exception->getMessage()
             );
         }
 
@@ -54,33 +119,8 @@ class UserController extends StubController
         return $jsonView;
     }
 
-    public function logoutAction()
-    {
-
-    }
-
-    public function authorizeAction()
-    {
-        if ($this->isSubmitted()) {
-            $login = $this->request->get('LOGIN');
-            $password = $this->request->get('PASSWORD');
-
-            $this->service->authorize($login, $password);
-        }
-        $webView = new WebView();
-        $webView->setTemplatePath('templates/user/authorize.php');
-        return $webView;
-    }
-
     protected function isSubmitted()
     {
         return $this->request->get('SUBMITTED') === 'Y';
-    }
-
-    public function testAction()
-    {
-        $jsonView = new JsonView();
-        $jsonView->setData(array('UserController output' => 'test'));
-        return $jsonView;
     }
 }

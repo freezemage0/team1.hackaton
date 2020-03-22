@@ -4,6 +4,7 @@ namespace Chat\Service;
 use Chat\Entity\ChatManager;
 use Core\Connection\Persistence\TransactionManager;
 use Core\Security\CurrentUser;
+use Core\Utility\Debug;
 
 class ChatService
 {
@@ -16,7 +17,7 @@ class ChatService
         $this->manager = $manager;
     }
 
-    public function send($messageText)
+    public function     send($messageText)
     {
         $transactionManager = $this->getTransactionManager();
 
@@ -40,15 +41,10 @@ class ChatService
         $transactionManager = $this->getTransactionManager();
 
         $callable = function ($offset) {
-            $userId = $this->user->getId();
-
             $dbMessages = $this->manager->get(array(
                 'offset' => ($offset * 50),
                 'order' => array('MESSAGE_TIMESTAMP', 'DESC'),
-                'limit' => 50,
-                'where' => array(
-                    array('USER_ID', $userId)
-                )
+                'limit' => 50
             ));
 
             $messages = array();
@@ -79,7 +75,7 @@ class ChatService
                     'where' => array(
                         array('ID', $lastMessageId, '>')
                     ),
-                    'order' => array('MESSAGE_TIMESTAMP' => 'DESC')
+                    'order' => array('MESSAGE_TIMESTAMP', 'DESC')
                 )
             );
 
@@ -93,7 +89,9 @@ class ChatService
                 $messages[] = $message;
             }
 
-            $this->user->getSession()->set('LAST_MESSAGE_ID', $newLastMessageId);
+            if ($newLastMessageId !== null) {
+                $this->user->getSession()->set('LAST_MESSAGE_ID', $newLastMessageId);
+            }
             return $messages;
         };
 
@@ -101,7 +99,6 @@ class ChatService
         while ((time() - $start) < 25) {
             $newMessages = $transactionManager->wrap($callable, array());
             if (!empty($newMessages)) {
-
                 return $newMessages;
             }
         }
